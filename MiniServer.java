@@ -18,17 +18,27 @@ import java.util.StringTokenizer;
  */
 public class MiniServer implements Runnable
 {
+    // Racine du serveur (repertoire de publication)
     static final File RACINE_SERVER = new File("htdocs");
+
+    // Repertoire contenant les pages d'erreurs
     static final File ERROR_DIRECTORY = new File("htdocs/errors");
-	static final String FICHIER_INDEX = "index.html";
-	static final String PAGE_NOT_FOUND = "404.html";
+
+    // Page d'acceuil au lancement du serveur (requête sur /)
+    static final String FICHIER_INDEX = "index.html";
+    
+    // Page 404 à afficher lorsque la ressource est innexistante
+    static final String PAGE_NOT_FOUND = "404.html";
+    
+    // Par défaut on ne supporte que du GET
+    // Cette page sera affiché lorsque la méthode de la requête est différent de GET
 	static final String METHODE_NON_SUPPORTE = "non_supporte.html";
     
     // port par défaut à écouter pour la connection
     private int portParDefaut = 4000;
     
     // mode verbeux afin d'avoir plus d'info sur l'état du serveur en console
-    private boolean modeVerbeux = false;
+    private boolean modeVerbeux = true;
     
     // Connection cliente via la classe Socket
     private Socket connect;
@@ -142,7 +152,6 @@ public class MiniServer implements Runnable
                     if(resourceRequested.isDirectory())
                     {
                         //On affiche le contenu du repertoire
-                        System.out.println(fileRequested + " est un repertoire");
 
                         out.println("HTTP/1.1 200 OK");
                         out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
