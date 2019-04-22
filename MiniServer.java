@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
- * @author Meissa Birima Couly Mbaye
+ * @author Meissa Birima Couly Mbaye (P@p!H@ck)
  * @since 18/04/19
  * @version 1.0 
  */
@@ -299,11 +299,11 @@ public class MiniServer implements Runnable
             File fic = new File(directory, file);
             if(fic.isFile())
             {
-                display += "<tr><td valign=\"top\"><img src=\"/static/icons/unknown.gif\" alt=\"[   ]\"></td><td><a href=\" "+ directoryName +"/"+  fic.getName() +" \">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
+                display += "<tr><td valign=\"top\"><img src=\"/static/icons/unknown.gif\" alt=\"[   ]\"></td><td><a href=\"/"+ directoryName +"/"+  fic.getName() +"\">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
             }
             else if(fic.isDirectory())
             {
-                display += "<tr><td valign=\"top\"><img src=\"/static/icons/folder.gif\" alt=\"[   ]\"></td><td><a href=\" "+ directoryName +"/"+ fic.getName() +" \">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
+                display += "<tr><td valign=\"top\"><img src=\"/static/icons/folder.gif\" alt=\"[   ]\"></td><td><a href=\"/"+ directoryName +"/"+ fic.getName() +"\">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
             }
         }
 
