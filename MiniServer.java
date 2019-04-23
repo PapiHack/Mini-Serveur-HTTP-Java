@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
+import org.python.util.PythonInterpreter;
+import org.python.core.*; 
 
 /**
  * @author Meissa Birima Couly Mbaye (P@p!H@ck)
@@ -164,16 +166,50 @@ public class MiniServer implements Runnable
                         dataOut.flush();
                     }
                 }
+                    if(fileRequested.endsWith(".py"))
+                    {
                         File file = new File(RACINE_SERVER, fileRequested);
                         int fileLength = (int) file.length();
-                        String content = getContentType(fileRequested);
+                        String contentType = getContentType(fileRequested);
+                        byte[] fileData = readFileData(file, fileLength);
+                        PythonInterpreter interpreteurPython = new PythonInterpreter();
+                        interpreteurPython.setOut(dataOut); 
+                        interpreteurPython.exec("print(\"------ Resultat de l'execution du fichier python ------\\n\")");
+                        interpreteurPython.exec(new String(fileData, "UTF-8"));
+                        interpreteurPython.exec("print(\"\\n---------------------------------------------------------\")");
+                        // send HTTP Headers
+                        out.println("HTTP/1.1 200 OK");
+                        out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
+                        out.println("Date: " + new Date());
+                        out.println("Content-type: " + contentType);
+                        out.println("Content-length: " + fileLength);
+                        out.println(); // blank line between headers and content, very important !
+                        out.flush(); // flush character output stream buffer
+                        
+                         //dataOut.write("\n <p>Exécution de fichier python</p>".getBytes());
+                         dataOut.flush();
+                 
+                         if (this.modeVerbeux) {
+                             this.displayInfoForVerboseMode(200, fileLength, contentType, "OK");
+                             System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
+                         }
+                         else
+                             System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
+ 
+                          interpreteurPython.close();
+                    }
+                    else
+                    {
+                        File file = new File(RACINE_SERVER, fileRequested);
+                        int fileLength = (int) file.length();
+                        String contentType = getContentType(fileRequested);
                         byte[] fileData = readFileData(file, fileLength);
 					
                         // send HTTP Headers
                         out.println("HTTP/1.1 200 OK");
                         out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
                         out.println("Date: " + new Date());
-                        out.println("Content-type: " + content);
+                        out.println("Content-type: " + contentType);
                         out.println("Content-length: " + fileLength);
                         out.println(); // blank line between headers and content, very important !
                         out.flush(); // flush character output stream buffer
@@ -181,13 +217,14 @@ public class MiniServer implements Runnable
                         dataOut.write(fileData, 0, fileLength);
                         dataOut.flush();
 				
-				if (this.modeVerbeux) {
-                    this.displayInfoForVerboseMode(200, fileLength, content, "OK");
-					System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
-                }
-                else
-					System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
+                        if (this.modeVerbeux) {
+                            this.displayInfoForVerboseMode(200, fileLength, contentType, "OK");
+                            System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
+                        }
+                        else
+                            System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
 
+                    }
 			}
 			
 		} catch (FileNotFoundException fnfe) {
@@ -203,7 +240,7 @@ public class MiniServer implements Runnable
             System.out.println();
         } 
         catch (IOException ioe) {
-			System.err.println("Erreur au niveau du serveur : " + ioe);
+			System.err.println("Erreur au niveau du serveur : " + ioe.getMessage());
 		} finally {
 			try {
 				in.close();
@@ -223,7 +260,7 @@ public class MiniServer implements Runnable
     
     private String getContentType(String fileRequested) 
     {
-		if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html"))
+		if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html")||  fileRequested.endsWith(".py"))
             return "text/html";
         else if (fileRequested.endsWith(".jpg") || fileRequested.endsWith(".jpeg"))
             return "image/jpeg";
@@ -291,7 +328,7 @@ public class MiniServer implements Runnable
 
     private String displayDirectoryContent(File directory)
     {
-        String directoryName = directory.getName();
+
         String parentDirectoryName = directory.getParent().equals("htdocs") ? "" : directory.getParentFile().getName();
 
         String display = new String("<html><head><meta charset=\"utf-8\"/><title>Index of /"+ directory.getPath().substring(7) +"</title></head>");
@@ -308,11 +345,11 @@ public class MiniServer implements Runnable
             File fic = new File(directory, file);
             if(fic.isFile())
             {
-                display += "<tr><td valign=\"top\"><img src=\"/static/icons/unknown.gif\" alt=\"[   ]\"></td><td><a href=\"/"+ directoryName +"/"+  fic.getName() +"\">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
+                display += "<tr><td valign=\"top\"><img src=\"/static/icons/unknown.gif\" alt=\"[   ]\"></td><td><a href=\"/"+ fic.getPath().substring(7) +"\">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
             }
             else if(fic.isDirectory())
             {
-                display += "<tr><td valign=\"top\"><img src=\"/static/icons/folder.gif\" alt=\"[   ]\"></td><td><a href=\"/"+ directoryName +"/"+ fic.getName() +"\">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
+                display += "<tr><td valign=\"top\"><img src=\"/static/icons/folder.gif\" alt=\"[   ]\"></td><td><a href=\"/"+ fic.getPath().substring(7) +"\">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
             }
         }
 
@@ -320,4 +357,5 @@ public class MiniServer implements Runnable
 
         return display;
     }
+
 }

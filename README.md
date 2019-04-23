@@ -19,4 +19,16 @@ La classe `MiniServer.java` contient le code métier du serveur et `RunMiniServe
 
 * `java RunMiniServer -p <portDecoute> -v <modeVerbeux> || java RunMiniServer --port <portDecoute> --verbose <modeVerbeux>`, permet de lancer le serveur sur le port `<portDecoute>` avec le mode verbeux à `<modeVerbeux>`.  
 
+## Exécution de Python  
+
+Après la mise en place des fonctionnalités obligatoires du projet, j'ai doté le serveur des fonctionnalités optionnelles telles que :  
+* Le listing des répertoires avec des liens hypertextes  
+* L'affichage du résultat de l'interpretation d'un fichier python (`.py`) lorsqu'une telle ressource est demandé  
+
+Pour cette dernière fonctionnalité, j'ai utilisé la libraire Jython qui fournit une API plutôt pas mal pour l'éxécution de code `Python` dans un programme `Java`. Le repertoire `lib` du projet contient le `jar` représentant la bibliothèque. Cependant, il faut veiller à l'inclure dans votre `path` lors de la compilation et/ou du démarrage du serveur.  
+Vous pouvez procéder comme suit :  
+* `javac -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer.java`  
+* `java -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer`  
+A noté que nos options restent toujours utilisables lorsque vous utilisez les commandes ci-dessus.  
+Si, le compilateur vous indque des classes innexistantes lors de votre première compilation, il est fort probable qu'il ai besoin de `Jython` pour fonctionner correctement. Utilisez alors ces commandes.
 
