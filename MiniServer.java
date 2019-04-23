@@ -11,7 +11,6 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
 import org.python.util.PythonInterpreter;
-import org.python.core.*; 
 
 /**
  * @author Meissa Birima Couly Mbaye (P@p!H@ck)
