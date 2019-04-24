@@ -1,4 +1,4 @@
-# Projet Mini Server Web by P@p!H@ck (M.B.C.M)  
+# Projet Mini Serveur Web by P@p!H@ck (M.B.C.M)  
 
 Ceci est un mini serveur web codé en Java. C'est un serveur web assez basique n'acceptant que des requêtes dont la méthode est de type `GET`.  
 Par défaut, il tourne sur le port `4000` (si ce dernier n'est pas spécifié dans la commande avec l'option `-p` ou `--port`) et dispose d'un mode verbeux (option `-v` ou `--verbose`) qui peut être à `true` ou `false`. Ce mode verbeux permet d'afficher plus d'informations du serveur au niveau de la console (`mode debug` en quelque sorte).  
@@ -23,7 +23,7 @@ La classe `MiniServer.java` contient le code métier du serveur et `RunMiniServe
 
 Après la mise en place des fonctionnalités obligatoires du projet, j'ai doté le serveur des fonctionnalités optionnelles telles que :  
 * Le listing des répertoires avec des liens hypertextes  
-* L'affichage du résultat de l'interpretation d'un fichier python (`.py`) lorsqu'une telle ressource est demandé  
+* L'affichage du résultat de l'interpretation d'un fichier python (`.py`) lorsqu'une telle ressource est demandée  
 
 Pour cette dernière fonctionnalité, j'ai utilisé la libraire Jython qui fournit une API plutôt pas mal pour l'éxécution de code `Python` dans un programme `Java`. Le repertoire `lib` du projet contient le `jar` représentant la bibliothèque. Cependant, il faut veiller à l'inclure dans votre `path` lors de la compilation et/ou du démarrage du serveur.  
 Vous pouvez procéder comme suit :  
