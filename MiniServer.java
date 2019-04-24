@@ -84,45 +84,46 @@ public class MiniServer implements Runnable
     @Override
     public void run()
     {
-		// we manage our particular client connection
-		BufferedReader in = null; PrintWriter out = null; BufferedOutputStream dataOut = null;
+        BufferedReader in = null; 
+        PrintWriter out = null; 
+        BufferedOutputStream dataOut = null;
 		String fileRequested = null;
 		
         try 
         {
-			// we read characters from the client via input stream on the socket
+			// lecture des caractères du client via l'input stream du socket
 			in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-			// we get character output stream to client (for headers)
+			// recuperation des infos du header
 			out = new PrintWriter(connect.getOutputStream());
-			// get binary output stream to client (for requested data)
+			// recuperation des donnees de la requête du client
 			dataOut = new BufferedOutputStream(connect.getOutputStream());
 			
-			// get first line of the request from the client
+			// recuperation de la 1ére ligne de la requête du client
 			String input = in.readLine();
-            // we parse the request with a string tokenizer
+            // on parse la requête avec un StringTokenize
             StringTokenizer parser = new StringTokenizer(input);
-			String method = parser.nextToken().toUpperCase(); // we get the HTTP method of the client
-			// we get file requested
+			String method = parser.nextToken().toUpperCase(); // On recupère la méthode du client
+			// on recupère la ressouce demandée
             fileRequested = parser.nextToken().toLowerCase();
-			// we support only GET and HEAD methods, we check
+			// on ne supporte que du "GET" pour le moment
 			if (!method.equals("GET")) {
                 
-                // we return the not supported file to the client
+                // Si c'est pas du "GET", on lui retourne "non_supporte.html"
 				File file = new File(ERROR_DIRECTORY, METHODE_NON_SUPPORTE);
 				int fileLength = (int) file.length();
 				String contentMimeType = "text/html";
-				//read content to return to client
+				//lecture du contenu du fichier à retourner au client
 				byte[] fileData = readFileData(file, fileLength);
                 
-				// we send HTTP Headers with data to client
+				// on envoi les en-têtes HTTP de la réponse au client
 				out.println("HTTP/1.1 501 Not Implemented");
 				out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
 				out.println("Date: " + new Date());
 				out.println("Content-type: " + contentMimeType);
 				out.println("Content-length: " + fileLength);
-				out.println(); // blank line between headers and content, very important !
-				out.flush(); // flush character output stream buffer
-				// file
+				out.println(); 
+                out.flush(); 
+                
 				dataOut.write(fileData, 0, fileLength);
 				dataOut.flush();
                 
@@ -159,8 +160,8 @@ public class MiniServer implements Runnable
                         out.println("Date: " + new Date());
                         out.println("Content-type: " + this.displayDirectoryContent(resourceRequested));
                         out.println("Content-length: " + this.displayDirectoryContent(resourceRequested).length());
-                        out.println(); // blank line between headers and content, very important !
-                        out.flush(); // flush character output stream buffer
+                        out.println(); 
+                        out.flush(); 
                         dataOut.write(this.displayDirectoryContent(resourceRequested).getBytes());
                         dataOut.flush();
                     }
@@ -176,19 +177,20 @@ public class MiniServer implements Runnable
                         interpreteurPython.exec("print(\"------ Resultat de l'execution du fichier python ------\\n\")");
                         interpreteurPython.exec(new String(fileData, "UTF-8"));
                         interpreteurPython.exec("print(\"\\n---------------------------------------------------------\")");
-                        // send HTTP Headers
+                        
                         out.println("HTTP/1.1 200 OK");
                         out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
                         out.println("Date: " + new Date());
                         out.println("Content-type: " + contentType);
                         out.println("Content-length: " + fileLength);
-                        out.println(); // blank line between headers and content, very important !
-                        out.flush(); // flush character output stream buffer
+                        out.println();
+                        out.flush(); 
                         
                          //dataOut.write("\n <p>Exécution de fichier python</p>".getBytes());
                          dataOut.flush();
                  
-                         if (this.modeVerbeux) {
+                         if (this.modeVerbeux) 
+                         {
                              this.displayInfoForVerboseMode(200, fileLength, contentType, "OK");
                              System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
                          }
@@ -204,19 +206,19 @@ public class MiniServer implements Runnable
                         String contentType = getContentType(fileRequested);
                         byte[] fileData = readFileData(file, fileLength);
 					
-                        // send HTTP Headers
                         out.println("HTTP/1.1 200 OK");
                         out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
                         out.println("Date: " + new Date());
                         out.println("Content-type: " + contentType);
                         out.println("Content-length: " + fileLength);
-                        out.println(); // blank line between headers and content, very important !
-                        out.flush(); // flush character output stream buffer
+                        out.println();
+                        out.flush(); 
                         
                         dataOut.write(fileData, 0, fileLength);
                         dataOut.flush();
 				
-                        if (this.modeVerbeux) {
+                        if (this.modeVerbeux) 
+                        {
                             this.displayInfoForVerboseMode(200, fileLength, contentType, "OK");
                             System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
                         }
@@ -245,7 +247,7 @@ public class MiniServer implements Runnable
 				in.close();
 				out.close();
 				dataOut.close();
-                this.connect.close(); // we close socket connection
+                this.connect.close(); // fermeture du socket
 			} catch (Exception e) {
 				System.err.println("Erreur fermeture du stream : " + e.getMessage());
             }
@@ -257,6 +259,7 @@ public class MiniServer implements Runnable
 		}
     }
     
+    // Retourne le "Content-Type" correspondant à la ressource demandée par le client 
     private String getContentType(String fileRequested) 
     {
 		if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html")||  fileRequested.endsWith(".py"))
@@ -273,6 +276,8 @@ public class MiniServer implements Runnable
 			return "text/plain";
     }
     
+    // Renvoie la page adéquate ainsi que le status code 404, lorsque la ressource demandée par le client
+    // n'existe pas ou n'a pas été trouvé
     private void fileNotFound(PrintWriter out, OutputStream dataOut, String fileRequested) throws IOException 
     {
 		File file = new File(ERROR_DIRECTORY, PAGE_NOT_FOUND);
@@ -285,8 +290,8 @@ public class MiniServer implements Runnable
 		out.println("Date: " + new Date());
 		out.println("Content-type: " + content);
 		out.println("Content-length: " + fileLength);
-		out.println(); // blank line between headers and content, very important !
-		out.flush(); // flush character output stream buffer
+		out.println();
+		out.flush(); 
 		
 		dataOut.write(fileData, 0, fileLength);
 		dataOut.flush();
@@ -300,6 +305,7 @@ public class MiniServer implements Runnable
             System.out.println("Le fichier " + fileRequested + " est introuvable");
     }
     
+    // Retourne le résultat de la lecture de la ressource demandée par le client
     private byte[] readFileData(File file, int fileLength) throws IOException 
     {
 		FileInputStream fileIn = null;
@@ -316,6 +322,7 @@ public class MiniServer implements Runnable
 		return fileData;
     }
     
+    // Affiche des infos supplémentaires lorsque le mode verbeux est activé 
     private void displayInfoForVerboseMode(int statusCode, int fileLength, String contentType, String statusMsg)
     {
         System.out.println("HTTP/1.1 " + statusCode + " " + statusMsg);
@@ -325,6 +332,7 @@ public class MiniServer implements Runnable
 		System.out.println("Content-length: " + fileLength);
     }
 
+    // Retourne le contenu du repertoire demandé par le client sous forme de lien hypertexte
     private String displayDirectoryContent(File directory)
     {
 
