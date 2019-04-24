@@ -29,6 +29,7 @@ Pour cette dernière fonctionnalité, j'ai utilisé la libraire Jython qui fourn
 Vous pouvez procéder comme suit :  
 * `javac -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer.java`  
 * `java -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer`  
+
 A noté que nos options restent toujours utilisables lorsque vous utilisez les commandes ci-dessus.  
 Si, le compilateur vous indque des classes innexistantes lors de votre première compilation, il est fort probable qu'il ai besoin de `Jython` pour fonctionner correctement. Utilisez alors ces commandes.
 
