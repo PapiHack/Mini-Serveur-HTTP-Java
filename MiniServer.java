@@ -134,9 +134,7 @@ public class MiniServer implements Runnable
                     System.out.println("501 Not Implemented : " + method + " method.");
                 }
                 else
-                    System.out.println("501 Not Implemented : " + method + " method.");
-                    
-				
+                    System.out.println("501 Not Implemented : " + method + " method.");        
             } 
             else 
             {

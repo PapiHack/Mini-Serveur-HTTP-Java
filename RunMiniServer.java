@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Date;
 
-
 /**
  * @author Meissa Birima Couly Mbaye (P@p!H@ck3R)
  * @since 18/04/19
@@ -75,7 +74,7 @@ public class RunMiniServer
             System.out.println("Commande invalide ! Veuillez consultez l'aide avec java RunMiniServer -h | java RunMiniServer --help");       
     }
 
-    // Permet de demarré le serveur sur le port indiqué
+    // Permet de demarrer le serveur sur le port indiqué
     public static void runServer(int port, boolean verboseMode)
     {
         MiniServer myServer = null;
