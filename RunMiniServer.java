@@ -85,7 +85,7 @@ public class RunMiniServer
             serverConnect = new ServerSocket(port);
             System.out.println("Serveur demarré.\nEcoute de connections au niveau du port : " + port + "...\n");
             
-            // we listen until user halts server execution
+            
             while (true) 
             {
                 myServer = new MiniServer(serverConnect.accept());
@@ -93,7 +93,7 @@ public class RunMiniServer
                 
                 if (myServer.hasVerboseMode())
                     System.out.println("Connecton opened. (" + new Date() + ")");
-                // create dedicated thread to manage the client connection
+                // Création d'un thread dédié à la gestion des connections clientes
                 Thread thread = new Thread(myServer);
                 thread.start();
             }
@@ -125,9 +125,6 @@ public class RunMiniServer
     // Permet de savoir si pattern est vraiment un booléen (pour les besoins de la commande)
     public static boolean isBoolean(String pattern)
     {
-        if(pattern.equals("true") || pattern.equals("false"))
-            return true;
-        else
-            return false;
+        return (pattern.equals("true") || pattern.equals("false")) ? true : false;
     }
 }

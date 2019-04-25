@@ -106,7 +106,8 @@ public class MiniServer implements Runnable
 			// on recupère la ressouce demandée
             fileRequested = parser.nextToken().toLowerCase();
 			// on ne supporte que du "GET" pour le moment
-			if (!method.equals("GET")) {
+            if (!method.equals("GET")) 
+            {
                 
                 // Si c'est pas du "GET", on lui retourne "non_supporte.html"
 				File file = new File(ERROR_DIRECTORY, METHODE_NON_SUPPORTE);
@@ -136,7 +137,9 @@ public class MiniServer implements Runnable
                     System.out.println("501 Not Implemented : " + method + " method.");
                     
 				
-			} else {
+            } 
+            else 
+            {
 				// GET
                 if (fileRequested.equals("/")) 
                 {
