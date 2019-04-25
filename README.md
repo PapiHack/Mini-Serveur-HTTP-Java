@@ -1,4 +1,4 @@
-# Projet Mini Serveur Web by P@p!H@ck (M.B.C.M)  
+# Projet Mini Serveur Web by P@p!H@ck3R (M.B.C.M)  
 
 Ceci est un mini serveur web codé en Java. C'est un serveur web assez basique n'acceptant que des requêtes dont la méthode est de type `GET`.  
 Par défaut, il tourne sur le port `4000` (si ce dernier n'est pas spécifié dans la commande avec l'option `-p` ou `--port`) et dispose d'un mode verbeux (option `-v` ou `--verbose`) qui peut être à `true` ou `false`. Ce mode verbeux permet d'afficher plus d'informations du serveur au niveau de la console (`mode debug` en quelque sorte).  
