@@ -4,7 +4,7 @@ import java.util.Date;
 
 
 /**
- * @author Meissa Birima Couly Mbaye (P@p!H@ck)
+ * @author Meissa Birima Couly Mbaye (P@p!H@ck3R)
  * @since 18/04/19
  * @version 1.0 
  */
@@ -83,7 +83,7 @@ public class RunMiniServer
         try 
         {
             serverConnect = new ServerSocket(port);
-            System.out.println("Serveur demarré.\nEcoute de connections au niveau du port : " + port + " ...\n");
+            System.out.println("Serveur demarré.\nEcoute de connections au niveau du port : " + port + "...\n");
             
             // we listen until user halts server execution
             while (true) 
@@ -114,9 +114,12 @@ public class RunMiniServer
         System.out.println(" \t suivantes: [true | false].");
         System.out.println("Usages: \n\t java RunMiniServer –p port –v verbose \n\t java RunMiniServer --port port --verbose verbose");
         System.out.println("Options: \n\t -p, --port <portAEcouter> pour spécifier le port à écouter\n\t -v, --verbose <verbose> pour activer le mode verbeux \n\t -h, --help pour afficher l'aide");
+        System.out.println("Important: \n\t Etant donné qu'il est possible d'éxécuter du code python veuillez utiliser les commandes suivantes: ");
+        System.out.println("\t Compilation: javac -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer.java");
+        System.out.println("\t Exécution: java -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer.java [-p | --port <port>] [-v | --verbose <verbose>] \t [-h | --help]");
         System.out.println("AUTEUR: \n\t Codé par Meissa Birima Couly Mbaye (itdev | P@p!H@ck3R) <itdev94@gmail.com> Site Web <http://www.itdev.site>");
         System.out.println("Repository: \n\t Retrouvez la plupart de mes projets sur mon repo github <https://github.com/PapiHack>");
-        System.out.println("\t\t\t 22 Avril 2018, M1GLSI");
+        System.out.println("\t\t\t Avril 2018, M1GLSI");
     }
 
     // Permet de savoir si pattern est vraiment un booléen (pour les besoins de la commande)

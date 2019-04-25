@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
 import org.python.util.PythonInterpreter;
 
 /**
- * @author Meissa Birima Couly Mbaye (P@p!H@ck)
+ * @author Meissa Birima Couly Mbaye (P@p!H@ck3R)
  * @since 18/04/19
  * @version 1.0 
  */
@@ -25,7 +25,7 @@ public class MiniServer implements Runnable
     // Repertoire contenant les pages d'erreurs
     static final File ERROR_DIRECTORY = new File("htdocs/errors");
 
-    // Page d'acceuil au lancement du serveur (requête sur /)
+    // Page d'acceuil au lancement du serveur (requête sur "/")
     static final String FICHIER_INDEX = "index.html";
     
     // Page 404 à afficher lorsque la ressource est innexistante
@@ -341,9 +341,9 @@ public class MiniServer implements Runnable
         String display = new String("<html><head><meta charset=\"utf-8\"/><title>Index of /"+ directory.getPath().substring(7) +"</title></head>");
         display += "<body><h1>Index of /"+ directory.getPath().substring(7) +"</h1> <br/>";
         display += "<table><tr><th valign=\"top\"><img src=\"/static/icons/blank.gif\" alt=\"[ICO]\"></th>";
-        display += "<th><a href=\"?C=N;O=D\">Nom</a></th> <th><a href=\"?C=M;O=A\">Dernière Modification</a></th>";
-        display += "<th><a href=\"?C=S;O=A\">Taille</a></th><th><a href=\"?C=D;O=A\">Description</a></th> </tr> <tr><th colspan=\"5\"><hr></th></tr>";
-        display += "<tr><td valign=\"top\"><img src=\"/static/icons/back.gif\" alt=\"[PARENTDIR]\"></td><td><a href=\"/"+ parentDirectoryName +"\">Repertoire Parent</a>  </td><td>&nbsp;</td><td align=\"right\">  - </td><td>&nbsp;</td></tr>";
+        display += "<th>Nom</th> <th>&nbsp;&nbsp;</th> <th>Dernière Modification</th> <th>&nbsp;&nbsp;</th>";
+        display += "<th>Taille</th> <th>&nbsp;&nbsp;</th> </tr> <tr><th colspan=\"12\"><hr></th></tr>";
+        display += "<tr><td valign=\"top\"><img src=\"/static/icons/back.gif\" alt=\"[PARENTDIR]\"></td><td><a href=\"/"+ parentDirectoryName +"\">Repertoire Parent</a>  </td><td>&nbsp;&nbsp;</td><td align=\"right\">  - </td><td>&nbsp;</td></tr>";
        
         String[] fileList = directory.list();
 
@@ -352,15 +352,17 @@ public class MiniServer implements Runnable
             File fic = new File(directory, file);
             if(fic.isFile())
             {
-                display += "<tr><td valign=\"top\"><img src=\"/static/icons/unknown.gif\" alt=\"[   ]\"></td><td><a href=\"/"+ fic.getPath().substring(7) +"\">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
+                display += "<tr><td valign=\"top\"><img src=\"/static/icons/unknown.gif\" alt=\"[fichier]\"></td><td><a href=\"/"+ fic.getPath().substring(7) +"\">"+ fic.getName() +"</a> </td> <td>&nbsp;&nbsp;</td> <td align=\"right\">" + new Date(fic.lastModified()) + " </td> <td>&nbsp;</td> <td align=\"right\">"+ fic.length() +"</td><td>&nbsp; &nbsp; &nbsp;</td></tr>";
             }
             else if(fic.isDirectory())
             {
-                display += "<tr><td valign=\"top\"><img src=\"/static/icons/folder.gif\" alt=\"[   ]\"></td><td><a href=\"/"+ fic.getPath().substring(7) +"\">"+ fic.getName() +"</a> </td><td align=\"right\">" + new Date(fic.lastModified()) + " </td><td align=\"right\">"+ fic.getTotalSpace() +"</td><td>&nbsp;</td></tr>";
+                display += "<tr><td valign=\"top\"><img src=\"/static/icons/folder.gif\" alt=\"[directory]\"></td><td><a href=\"/"+ fic.getPath().substring(7) +"\">"+ fic.getName() +"</a> </td> <td>&nbsp;&nbsp;</td> <td align=\"right\">" + new Date(fic.lastModified()) + " </td> <td>&nbsp;</td> <td align=\"right\">"+ fic.length() +"</td><td>&nbsp; &nbsp; &nbsp;</td></tr>";
             }
         }
 
-        display += "</table></body></html>";
+        display += "</table> <div id=\"signature\">By P@p!H@ck3R</div>";
+        display += "<style>body { font-family: Arial, Helvetica, sans-serif ;}";
+        display += "#signature { position: absolute; right: 20px; bottom: 20px; font-style: italic;} th{color: blue;}</style></body></html>";
 
         return display;
     }
