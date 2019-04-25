@@ -28,8 +28,8 @@ Après la mise en place des fonctionnalités obligatoires du projet, j'ai doté 
 Pour cette dernière fonctionnalité, j'ai utilisé la libraire `Jython` qui fournit une API plutôt pas mal pour l'éxécution de code `Python` dans un programme `Java`. Le repertoire `lib` du projet contient le `jar` représentant la bibliothèque. Cependant, il faut veiller à l'inclure dans votre `path` lors de la compilation et/ou du démarrage du serveur.  
 Vous pouvez procéder comme suit :  
 
-* Compilation:  
-        `javac -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer.java`  
+* Compilation  
+`javac -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer.java`  
 
-* Exécution:  
+* Exécution  
 `java -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer.java [-p | --port <port>] [-v | --verbose <verbose> [-h | --help]`
