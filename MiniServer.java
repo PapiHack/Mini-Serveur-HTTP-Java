@@ -159,7 +159,7 @@ public class MiniServer implements Runnable
                         out.println("HTTP/1.1 200 OK");
                         out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
                         out.println("Date: " + new Date());
-                        out.println("Content-type: " + this.displayDirectoryContent(resourceRequested));
+                        out.println("Content-type: text/html");
                         out.println("Content-length: " + this.displayDirectoryContent(resourceRequested).length());
                         out.println(); 
                         out.flush(); 
