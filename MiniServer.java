@@ -114,7 +114,7 @@ public class MiniServer implements Runnable
 				int fileLength = (int) file.length();
 				String contentMimeType = "text/html";
 				//lecture du contenu du fichier à retourner au client
-				byte[] fileData = readFileData(file, fileLength);
+				byte[] fileData = this.readFileData(file, fileLength);
                 
 				// on envoi les en-têtes HTTP de la réponse au client
 				out.println("HTTP/1.1 501 Not Implemented");
@@ -171,8 +171,8 @@ public class MiniServer implements Runnable
                     {
                         File file = new File(RACINE_SERVER, fileRequested);
                         int fileLength = (int) file.length();
-                        String contentType = getContentType(fileRequested);
-                        byte[] fileData = readFileData(file, fileLength);
+                        String contentType = this.getContentType(fileRequested);
+                        byte[] fileData = this.readFileData(file, fileLength);
                         PythonInterpreter interpreteurPython = new PythonInterpreter();
                         interpreteurPython.setOut(dataOut); 
                         interpreteurPython.exec("print(\"------ Resultat de l'execution du fichier python ------\\n\")");
@@ -193,10 +193,10 @@ public class MiniServer implements Runnable
                          if (this.modeVerbeux) 
                          {
                              this.displayInfoForVerboseMode(200, fileLength, contentType, "OK");
-                             System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
+                             System.out.println("Fichier " + fileRequested + " de type " + this.getContentType(fileRequested) + " retourné");
                          }
                          else
-                             System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
+                             System.out.println("Fichier " + fileRequested + " de type " + this.getContentType(fileRequested) + " retourné");
  
                           interpreteurPython.close();
                     }
@@ -204,8 +204,8 @@ public class MiniServer implements Runnable
                     {
                         File file = new File(RACINE_SERVER, fileRequested);
                         int fileLength = (int) file.length();
-                        String contentType = getContentType(fileRequested);
-                        byte[] fileData = readFileData(file, fileLength);
+                        String contentType = this.getContentType(fileRequested);
+                        byte[] fileData = this.readFileData(file, fileLength);
 					
                         out.println("HTTP/1.1 200 OK");
                         out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
@@ -221,10 +221,10 @@ public class MiniServer implements Runnable
                         if (this.modeVerbeux) 
                         {
                             this.displayInfoForVerboseMode(200, fileLength, contentType, "OK");
-                            System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
+                            System.out.println("Fichier " + fileRequested + " de type " + this.getContentType(fileRequested) + " retourné");
                         }
                         else
-                            System.out.println("Fichier " + fileRequested + " de type " + getContentType(fileRequested) + " retourné");
+                            System.out.println("Fichier " + fileRequested + " de type " + this.getContentType(fileRequested) + " retourné");
 
                     }
 			}
@@ -284,7 +284,7 @@ public class MiniServer implements Runnable
 		File file = new File(ERROR_DIRECTORY, PAGE_NOT_FOUND);
 		int fileLength = (int) file.length();
 		String content = "text/html";
-		byte[] fileData = readFileData(file, fileLength);
+		byte[] fileData = this.readFileData(file, fileLength);
 		
 		out.println("HTTP/1.1 404 File Not Found");
 		out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
