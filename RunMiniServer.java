@@ -14,6 +14,7 @@ public class RunMiniServer
 
     // Par défaut on active le mode verbeux
     public static final boolean MODE_VERBEUX = true;
+    
     public static void main(String[] args) 
     {
 
