@@ -157,7 +157,7 @@ public class MiniServer implements Runnable
                     {
                         File file = new File(RACINE_SERVER, fileRequested);
                         int fileLength = (int) file.length();
-                        String contentType = this.getContentType(fileRequested);
+                        String contentType = "text/html";
                         byte[] fileData = this.readFileData(file, fileLength);
                         PythonInterpreter interpreteurPython = new PythonInterpreter();
                         interpreteurPython.setOut(dataOut); 
@@ -236,7 +236,7 @@ public class MiniServer implements Runnable
     // Retourne le "Content-Type" correspondant à la ressource demandée par le client 
     private String getContentType(String fileRequested) 
     {
-		if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html")||  fileRequested.endsWith(".py"))
+		if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html"))
             return "text/html";
         else if (fileRequested.endsWith(".jpg") || fileRequested.endsWith(".jpeg"))
             return "image/jpeg";
