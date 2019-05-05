@@ -112,18 +112,10 @@ public class MiniServer implements Runnable
                 // Si c'est pas du "GET", on lui retourne "non_supporte.html"
 				File file = new File(ERROR_DIRECTORY, METHODE_NON_SUPPORTE);
 				int fileLength = (int) file.length();
-				String contentMimeType = "text/html";
 				//lecture du contenu du fichier à retourner au client
-				byte[] fileData = this.readFileData(file, fileLength);
+                byte[] fileData = this.readFileData(file, fileLength);
                 
-				// on envoi les en-têtes HTTP de la réponse au client
-				out.println("HTTP/1.1 501 Not Implemented");
-				out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
-				out.println("Date: " + new Date());
-				out.println("Content-type: " + contentMimeType);
-				out.println("Content-length: " + fileLength);
-				out.println(); 
-                out.flush(); 
+                this.writeHeaders(out, 501, fileLength, "text/html", "Not Implemented");
                 
 				dataOut.write(fileData, 0, fileLength);
 				dataOut.flush();
@@ -155,14 +147,8 @@ public class MiniServer implements Runnable
                     if(resourceRequested.isDirectory())
                     {
                         //On affiche le contenu du repertoire
+                        this.writeHeaders(out, 200, this.displayDirectoryContent(resourceRequested).length(), "text/html", "OK");
 
-                        out.println("HTTP/1.1 200 OK");
-                        out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
-                        out.println("Date: " + new Date());
-                        out.println("Content-type: text/html");
-                        out.println("Content-length: " + this.displayDirectoryContent(resourceRequested).length());
-                        out.println(); 
-                        out.flush(); 
                         dataOut.write(this.displayDirectoryContent(resourceRequested).getBytes());
                         dataOut.flush();
                     }
@@ -179,16 +165,9 @@ public class MiniServer implements Runnable
                         interpreteurPython.exec(new String(fileData, "UTF-8"));
                         interpreteurPython.exec("print(\"\\n---------------------------------------------------------\")");
                         
-                        out.println("HTTP/1.1 200 OK");
-                        out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
-                        out.println("Date: " + new Date());
-                        out.println("Content-type: " + contentType);
-                        out.println("Content-length: " + fileLength);
-                        out.println();
-                        out.flush(); 
-                        
-                         //dataOut.write("\n <p>Exécution de fichier python</p>".getBytes());
-                         dataOut.flush();
+                        this.writeHeaders(out, 200, fileLength, contentType, "OK");
+
+                        dataOut.flush();
                  
                          if (this.modeVerbeux) 
                          {
@@ -206,14 +185,8 @@ public class MiniServer implements Runnable
                         int fileLength = (int) file.length();
                         String contentType = this.getContentType(fileRequested);
                         byte[] fileData = this.readFileData(file, fileLength);
-					
-                        out.println("HTTP/1.1 200 OK");
-                        out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
-                        out.println("Date: " + new Date());
-                        out.println("Content-type: " + contentType);
-                        out.println("Content-length: " + fileLength);
-                        out.println();
-                        out.flush(); 
+
+                        this.writeHeaders(out, 200, fileLength, contentType, "OK");
                         
                         dataOut.write(fileData, 0, fileLength);
                         dataOut.flush();
@@ -366,6 +339,18 @@ public class MiniServer implements Runnable
         display += "#signature { position: absolute; right: 20px; bottom: 20px; font-style: italic;} th{color: blue;}</style></body></html>";
 
         return display;
+    }
+
+    // Permet d'écrire les en-têtes HTTP
+    private void writeHeaders(PrintWriter out, int statusCode, int fileLength, String contentType, String statusMsg)
+    {
+        out.println("HTTP/1.1 " + statusCode + " " + statusMsg);
+        out.println("Server: JAVA Mini Serveur HTTP by Meissa : 1.0");
+        out.println("Date: " + new Date());
+        out.println("Content-type: " + contentType);
+        out.println("Content-length: " + fileLength);
+        out.println();
+        out.flush(); 
     }
 
 }
