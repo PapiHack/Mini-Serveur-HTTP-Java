@@ -1,4 +1,4 @@
-# Projet Mini Serveur Web by P@p!H@ck3R (M.B.C.M)  
+# Projet Mini Serveur Web 
 
 Ceci est un mini serveur web codé en Java. C'est un serveur web assez basique n'acceptant que des requêtes dont la méthode est de type `GET`.  
 Par défaut, il tourne sur le port `4000` (si ce dernier n'est pas spécifié dans la commande avec l'option `-p` ou `--port`) et dispose d'un mode verbeux (option `-v` ou `--verbose`) qui peut être à `true` ou `false`. Ce mode verbeux permet d'afficher plus d'informations du serveur au niveau de la console (`mode debug` en quelque sorte).  
@@ -33,3 +33,8 @@ Vous pouvez procéder comme suit :
 
 * Exécution  
 `java -cp lib/jython-standalone-2.7.0.jar:. RunMiniServer.java [-p | --port <port>] [-v | --verbose <verbose> [-h | --help]`
+
+
+### Author
+
+- [M.B.C.M](https://itdev.sn) [![My Twitter Link](https://img.shields.io/twitter/follow/the_it_dev?style=social)](https://twitter.com/the_it_dev)
